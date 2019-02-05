@@ -1,4 +1,4 @@
-package net.netau.vasyoid
+package net.netau.vasyoid.parser
 
 object VariablesSubstitutor {
 

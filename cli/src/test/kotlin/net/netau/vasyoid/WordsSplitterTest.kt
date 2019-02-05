@@ -1,5 +1,6 @@
 package net.netau.vasyoid
 
+import net.netau.vasyoid.parser.WordsSplitter
 import org.junit.Test
 
 import org.junit.Assert.*

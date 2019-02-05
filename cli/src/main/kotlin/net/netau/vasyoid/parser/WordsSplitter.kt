@@ -1,4 +1,4 @@
-package net.netau.vasyoid
+package net.netau.vasyoid.parser
 
 object WordsSplitter {
 
@@ -6,7 +6,10 @@ object WordsSplitter {
     private const val replacement = "\u0000$1\u0000"
 
     fun split(input: String): List<String> {
-        return input.replace(separatorsRegex, replacement)
+        return input.replace(
+            separatorsRegex,
+            replacement
+        )
             .split('\u0000')
             .filter { it.isNotBlank() }
     }
