@@ -11,10 +11,11 @@ class ExternalCommand(
 ) : Command(stdin, arguments, stdout) {
 
     override fun run(): Boolean {
+        val prefix = if (System.getProperty("os.name").startsWith("Win")) "cmd /c " else ""
         return try {
             val process = Runtime
                 .getRuntime()
-                .exec(arguments.joinToString(" "))
+                .exec(prefix + arguments.joinToString(" "))
             writeInput(process)
             readOutput(process)
             readErrors(process)

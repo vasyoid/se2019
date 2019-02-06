@@ -12,7 +12,6 @@ class ExternalCommandTest {
     fun dirLs() {
         val files = File("./")
             .listFiles()
-            //.sortedWith(Comparator.comparingLong { it.lastModified() })
             .joinToString("\n") { it.name }
         val arguments = if (System.getProperty("os.name").startsWith("Windows")) {
             listOf("dir", "/B", "/ON")
@@ -28,6 +27,18 @@ class ExternalCommandTest {
             ).run()
         )
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
-        assertEquals(files + "\n", outputString)
+        assertEquals(files + System.getProperty("line.separator"), outputString)
+    }
+
+    @Test
+    fun unknownCommand() {
+        val arguments = listOf("unknowncommandthatdoesnotexist")
+        assertFalse(
+            ExternalCommand(
+                ByteArrayInputStream(byteArrayOf()).bufferedReader(),
+                arguments,
+                System.out.bufferedWriter()
+            ).run()
+        )
     }
 }
