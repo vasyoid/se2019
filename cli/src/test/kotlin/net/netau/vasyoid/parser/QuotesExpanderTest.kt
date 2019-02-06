@@ -1,6 +1,5 @@
-package net.netau.vasyoid
+package net.netau.vasyoid.parser
 
-import net.netau.vasyoid.parser.QuotesExpander
 import org.junit.Assert.*
 import org.junit.Test
 

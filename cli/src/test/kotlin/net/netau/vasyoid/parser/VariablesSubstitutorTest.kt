@@ -1,7 +1,6 @@
-package net.netau.vasyoid
+package net.netau.vasyoid.parser
 
-import net.netau.vasyoid.parser.VariablesStorage
-import net.netau.vasyoid.parser.VariablesSubstitutor
+import net.netau.vasyoid.VariablesStorage
 import org.junit.Assert.*
 import org.junit.Test
 
