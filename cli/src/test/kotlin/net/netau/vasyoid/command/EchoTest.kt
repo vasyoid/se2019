@@ -14,8 +14,8 @@ class EchoTest {
         Assert.assertTrue(Echo(System.`in`.bufferedReader(), arguments, outputStream.bufferedWriter()).run())
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
         Assert.assertEquals(
-            arguments.joinToString(" "),
-            outputString.dropLast(1)
+            arguments.joinToString(" ") + System.lineSeparator(),
+            outputString
         )
     }
 }
