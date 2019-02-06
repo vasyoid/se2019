@@ -1,9 +1,6 @@
 package net.netau.vasyoid.command
 
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileInputStream
+import java.io.*
 
 
 class Cat(
@@ -12,15 +9,23 @@ class Cat(
     stdout: BufferedWriter
 ) : Command(stdin, arguments, stdout) {
 
+    /**
+     * @inheritDoc
+     */
     override fun run(): Boolean {
         if (arguments.isEmpty()) {
             cat(stdin)
         }
-        arguments.forEach {
-            cat(FileInputStream(File(it)).bufferedReader())
+        return try {
+            arguments.forEach {
+                cat(FileInputStream(File(it)).bufferedReader())
+            }
+            stdout.flush()
+            true
+        } catch (e: IOException) {
+            System.err.println(e.message)
+            false
         }
-        stdout.flush()
-        return true
     }
 
     private fun cat(input: BufferedReader) {

@@ -1,6 +1,6 @@
 package net.netau.vasyoid.command
 
-import net.netau.vasyoid.parser.VariablesStorage
+import net.netau.vasyoid.VariablesStorage
 import java.io.BufferedReader
 import java.io.BufferedWriter
 

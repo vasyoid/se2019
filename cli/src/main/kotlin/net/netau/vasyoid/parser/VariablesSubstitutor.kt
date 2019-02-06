@@ -1,5 +1,7 @@
 package net.netau.vasyoid.parser
 
+import net.netau.vasyoid.VariablesStorage
+
 object VariablesSubstitutor {
 
     fun substitute(input: List<String>): List<String> {

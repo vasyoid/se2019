@@ -1,4 +1,4 @@
-package net.netau.vasyoid.parser
+package net.netau.vasyoid
 
 object VariablesStorage {
 
