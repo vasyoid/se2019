@@ -27,7 +27,7 @@ class ExternalCommandTest {
             ).run()
         )
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
-        assertEquals(files + System.getProperty("line.separator"), outputString)
+        assertEquals(files, outputString.dropLast(1))
     }
 
     @Test
