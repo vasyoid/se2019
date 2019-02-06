@@ -27,7 +27,7 @@ class ExternalCommandTest {
             ).run()
         )
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
-        assertEquals(files, outputString.dropLast(1))
+        assertEquals(files + "\n", outputString.replace("\r\n", "\n"))
     }
 
     @Test
