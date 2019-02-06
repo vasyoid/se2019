@@ -4,6 +4,9 @@ import net.netau.vasyoid.parser.QuotesExpander
 import net.netau.vasyoid.parser.VariablesSubstitutor
 import net.netau.vasyoid.parser.WordsSplitter
 
+/**
+ * Main object. Performs the Cli user interaction.
+ */
 object Cli {
 
     private fun processInput(input: String) {
@@ -14,6 +17,9 @@ object Cli {
         print("> ")
     }
 
+    /**
+     * Main cli loop.
+     */
     @JvmStatic
     fun main(args: Array<String>) {
         print("> ")

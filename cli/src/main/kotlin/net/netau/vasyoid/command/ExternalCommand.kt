@@ -4,6 +4,9 @@ import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
 
+/**
+ * Execute external command command. Called when a command is unknown.
+ */
 class ExternalCommand(
     stdin: BufferedReader,
     arguments: List<String>,

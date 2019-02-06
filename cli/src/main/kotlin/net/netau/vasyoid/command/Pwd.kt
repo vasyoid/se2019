@@ -4,6 +4,9 @@ import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
 
+/**
+ * Pwd command. Prints the current path.
+ */
 class Pwd(
     stdin: BufferedReader,
     arguments: List<String>,

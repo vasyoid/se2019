@@ -2,7 +2,9 @@ package net.netau.vasyoid.command
 
 import java.io.*
 
-
+/**
+ * Cat command. Prints the contents of a file.
+ */
 class Cat(
     stdin: BufferedReader,
     arguments: List<String>,

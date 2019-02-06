@@ -4,6 +4,9 @@ import net.netau.vasyoid.VariablesStorage
 import java.io.BufferedReader
 import java.io.BufferedWriter
 
+/**
+ * Assignment command. Binds an environment variable to a value
+ */
 class Assign(
     stdin: BufferedReader,
     arguments: List<String>,

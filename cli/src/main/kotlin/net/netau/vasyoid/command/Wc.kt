@@ -3,6 +3,9 @@ package net.netau.vasyoid.command
 import java.io.*
 import java.nio.charset.Charset
 
+/**
+ * Wc command. Prints the number of newlines, words and bytes in a file.
+ */
 class Wc(
     stdin: BufferedReader,
     arguments: List<String>,

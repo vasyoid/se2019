@@ -6,8 +6,14 @@ import java.io.BufferedWriter
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
+/**
+ * Interpreter. Interprets parsed user commands.
+ */
 object Interpreter {
 
+    /**
+     * Interprets parsed user commands.
+     */
     fun interpret(command: List<String>) {
         var input = ByteArrayInputStream(ByteArray(0)).bufferedReader()
         var mainToken = ""
