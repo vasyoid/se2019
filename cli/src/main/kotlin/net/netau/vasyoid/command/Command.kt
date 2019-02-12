@@ -9,7 +9,8 @@ import java.io.BufferedWriter
 abstract class Command(val stdin: BufferedReader, val arguments: List<String>, val stdout: BufferedWriter) {
 
     /**
-     * main function of the command. Does all business logic.
+     * Main function of the command. Does all business logic.
+     * Returns true on success and false otherwise.
      */
     abstract fun run(): Boolean
 }
