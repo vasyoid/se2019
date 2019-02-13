@@ -85,7 +85,7 @@ class GrepTest {
     }
 
     @Test
-    fun grepMultiplePattenrs() {
+    fun grepMultiplePatterns() {
         val arguments = listOf("asd", "sdf")
         assertFalse(Grep(stdin, arguments, stdout).run())
     }
@@ -95,6 +95,6 @@ class GrepTest {
         val outputStream = ByteArrayOutputStream()
         assertTrue(Grep(input, arguments, outputStream.bufferedWriter()).run())
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
-        assertEquals(expectedResult, outputString)
+        assertEquals(expectedResult.replace("\n", System.lineSeparator()), outputString)
     }
 }
