@@ -1,7 +1,8 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import java.io.*
-import java.lang.StringBuilder
+import kotlin.text.StringBuilder
 import java.nio.charset.Charset
 
 /**
@@ -35,17 +36,21 @@ class Wc(
     private fun wc(file: File): Statistics {
         val stat = Statistics()
         var prevChar = ' '.toInt()
-        val input = FileInputStream(file).reader(Charset.defaultCharset()).buffered()
-        loop@ while (true) {
-            val char = input.read()
-            when {
-                char < 0 -> break@loop
-                char == '\n'.toInt() -> stat.lines++
-                !Character.isWhitespace(char) and Character.isWhitespace(prevChar) -> stat.words++
+        try {
+            val input = FileInputStream(file).reader(Charset.defaultCharset()).buffered()
+            loop@ while (true) {
+                val char = input.read()
+                when {
+                    char < 0 -> break@loop
+                    char == '\n'.toInt() -> stat.lines++
+                    !Character.isWhitespace(char) and Character.isWhitespace(prevChar) -> stat.words++
+                }
+                prevChar = char
             }
-            prevChar = char
+            stat.bytes = file.length()
+        } catch (e: IOException) {
+            throw CommandException("wc: " + e.message)
         }
-        stat.bytes = file.length()
         return stat
     }
 
@@ -56,7 +61,7 @@ class Wc(
             if (char < 0) {
                 break@loop
             }
-            stringBuilder.append(char)
+            stringBuilder.append(char.toChar())
         }
         val stat = Statistics()
         val string = stringBuilder.toString()
