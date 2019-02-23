@@ -1,6 +1,7 @@
 package net.netau.vasyoid.command
 
 import java.io.*
+import java.lang.StringBuilder
 import java.nio.charset.Charset
 
 /**
@@ -14,12 +15,12 @@ class Wc(
 
     override fun run(): Boolean {
         if (arguments.isEmpty()) {
-            printStat(wc(stdin))
+            printStat(wc())
             return true
         }
         val total = Statistics()
         arguments.forEach {
-            val stat = wc(FileInputStream(File(it)).reader(Charset.defaultCharset()).buffered())
+            val stat = wc(File(it))
             printStat(stat, it)
             total.lines += stat.lines
             total.words += stat.words
@@ -31,9 +32,10 @@ class Wc(
         return true
     }
 
-    private fun wc(input: BufferedReader): Statistics {
+    private fun wc(file: File): Statistics {
         val stat = Statistics()
         var prevChar = ' '.toInt()
+        val input = FileInputStream(file).reader(Charset.defaultCharset()).buffered()
         loop@ while (true) {
             val char = input.read()
             when {
@@ -41,14 +43,27 @@ class Wc(
                 char == '\n'.toInt() -> stat.lines++
                 !Character.isWhitespace(char) and Character.isWhitespace(prevChar) -> stat.words++
             }
-            stat.bytes += charSize(char)
             prevChar = char
         }
+        stat.bytes = file.length()
         return stat
     }
 
-    private fun charSize(char: Int): Int {
-        return char.toChar().toString().toByteArray().size
+    private fun wc(): Statistics {
+        val stringBuilder = StringBuilder()
+        loop@ while (true) {
+            val char = stdin.read()
+            if (char < 0) {
+                break@loop
+            }
+            stringBuilder.append(char)
+        }
+        val stat = Statistics()
+        val string = stringBuilder.toString()
+        stat.bytes = string.toByteArray().size.toLong()
+        stat.lines = string.count { it == '\n' }.toLong()
+        stat.words = string.split(Regex("\\s")).size.toLong()
+        return stat
     }
 
     private fun printStat(stat: Statistics, name: String = "") {
@@ -59,6 +74,6 @@ class Wc(
 
     companion object {
 
-        private data class Statistics(var lines: Int = 0, var words: Int = 0, var bytes: Int = 0)
+        private data class Statistics(var lines: Long = 0, var words: Long = 0, var bytes: Long = 0)
     }
 }
