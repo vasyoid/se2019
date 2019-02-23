@@ -1,5 +1,6 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import java.io.*
 
 /**
@@ -25,8 +26,7 @@ class Cat(
             stdout.flush()
             true
         } catch (e: IOException) {
-            System.err.println(e.message)
-            false
+            throw CommandException("cat: " + e.message)
         }
     }
 

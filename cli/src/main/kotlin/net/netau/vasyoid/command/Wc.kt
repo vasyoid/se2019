@@ -15,6 +15,7 @@ class Wc(
     override fun run(): Boolean {
         if (arguments.isEmpty()) {
             printStat(wc(stdin))
+            return true
         }
         val total = Statistics()
         arguments.forEach {

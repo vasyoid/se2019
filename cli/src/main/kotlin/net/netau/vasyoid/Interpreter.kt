@@ -1,6 +1,7 @@
 package net.netau.vasyoid
 
 import net.netau.vasyoid.command.*
+import net.netau.vasyoid.exception.CommandException
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.ByteArrayInputStream
@@ -36,8 +37,7 @@ class Interpreter {
                     }
                     "=" -> {
                         if (mainToken == "" || arguments.isNotEmpty()) {
-                            System.err.println("Incorrect assignment command")
-                            return
+                            throw CommandException("Incorrect assignment command")
                         }
                         arguments += mainToken
                         mainToken = "="
@@ -62,8 +62,7 @@ class Interpreter {
             storage: VariablesStorage
         ): Boolean {
             if (command == "") {
-                System.err.println("Empty command")
-                return false
+                throw CommandException("Empty command")
             }
             return when (command) {
                 "=" -> Assign(input, arguments, output, storage).run()
