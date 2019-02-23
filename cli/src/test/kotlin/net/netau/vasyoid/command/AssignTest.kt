@@ -12,19 +12,20 @@ class AssignTest {
     @Test
     fun tooManyArguments() {
         val arguments = listOf("a", "b", "c")
-        assertFalse(Assign(stdin, arguments, stdout).run())
+        assertFalse(Assign(stdin, arguments, stdout, VariablesStorage()).run())
     }
 
     @Test
     fun tooFewArguments() {
         val arguments = listOf("a")
-        assertFalse(Assign(stdin, arguments, stdout).run())
+        assertFalse(Assign(stdin, arguments, stdout, VariablesStorage()).run())
     }
 
     @Test
     fun correctAssignment() {
+        val storage = VariablesStorage()
         val arguments = listOf("a", "asd af")
-        assertTrue(Assign(stdin, arguments, stdout).run())
-        assertEquals("asd af", VariablesStorage.get("a"))
+        assertTrue(Assign(stdin, arguments, stdout, storage).run())
+        assertEquals("asd af", storage.get("a"))
     }
 }

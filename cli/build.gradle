@@ -8,6 +8,14 @@ application {
     mainClassName = "net.netau.vasyoid.Cli"
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.netau.vasyoid.Cli'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 group 'se2018'
 version '1.0-SNAPSHOT'
 
