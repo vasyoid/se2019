@@ -1,8 +1,5 @@
 package net.netau.vasyoid
 
-import net.netau.vasyoid.exception.CommandException
-
-
 /**
  * Main object. Performs the Cli user interaction.
  */
@@ -13,10 +10,10 @@ object Cli {
     private val storage = VariablesStorage()
 
     private fun processInput(input: String) {
-        val tokens = parser.parse(input, storage)
         try {
+            val tokens = parser.parse(input, storage)
             interpreter.interpret(tokens, storage)
-        } catch (e: CommandException) {
+        } catch (e: RuntimeException) {
             System.err.println(e.message)
         }
         print("> ")

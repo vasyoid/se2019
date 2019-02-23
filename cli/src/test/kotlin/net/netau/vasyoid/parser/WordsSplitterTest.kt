@@ -1,5 +1,6 @@
 package net.netau.vasyoid.parser
 
+import net.netau.vasyoid.exception.ParserException
 import net.netau.vasyoid.Parser
 import org.junit.Test
 
@@ -63,4 +64,15 @@ class WordsSplitterTest {
         assertEquals(output, Parser.splitWords(input))
     }
 
+    @Test(expected = ParserException::class)
+    fun mismatchedSingleQuote() {
+        val input = "echo text'text"
+        Parser.splitWords(input)
+    }
+
+    @Test(expected = ParserException::class)
+    fun mismatchedMultiQuote() {
+        val input = "echo \"text"
+        Parser.splitWords(input)
+    }
 }

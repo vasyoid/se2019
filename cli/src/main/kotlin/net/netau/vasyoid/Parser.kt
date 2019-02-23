@@ -1,5 +1,7 @@
 package net.netau.vasyoid
 
+import net.netau.vasyoid.exception.ParserException
+
 /**
  * Cli parser. Gets a complex command and splits it into to simple piped ones.
  */
@@ -7,8 +9,13 @@ class Parser {
 
     companion object {
 
-        private val separatorsRegex = Regex("('[^']*'|\"[^\"]*\"|\\||\\s+|=)")
         private const val replacement = "\u0000$1\u0000"
+        private const val singleQuot = "'[^']*'"
+        private const val doubleQuot = "\"[^\"]*\""
+        private const val noQuot = "[^'|\"]*"
+        private const val pipedCommand = "($noQuot($singleQuot|$doubleQuot)?$noQuot)*"
+        private val validationRegex = Regex("$pipedCommand(\\|$pipedCommand)*")
+        private val separatorsRegex = Regex("($singleQuot|$doubleQuot|\\||\\s+|=)")
 
         /**
          * Parses a command into tokens.
@@ -23,6 +30,9 @@ class Parser {
          * Splits the input into tokens.
          */
         fun splitWords(input: String): List<String> {
+            if (!input.matches(validationRegex)) {
+                throw ParserException("Syntax error: mismatched quotes")
+            }
             return input.replace(
                 separatorsRegex,
                 replacement
