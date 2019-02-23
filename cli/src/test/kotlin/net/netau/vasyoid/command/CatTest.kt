@@ -1,5 +1,6 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -38,9 +39,9 @@ class CatTest {
         assertEquals(inputString, outputString)
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun nonExistingFile() {
         val arguments = listOf("filethatdoesnotexist")
-        assertFalse(Cat(stdin, arguments, System.out.bufferedWriter()).run())
+        Cat(stdin, arguments, System.out.bufferedWriter()).run()
     }
 }

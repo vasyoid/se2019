@@ -1,6 +1,7 @@
 package net.netau.vasyoid.command
 
 import net.netau.vasyoid.VariablesStorage
+import net.netau.vasyoid.exception.CommandException
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -9,16 +10,16 @@ class AssignTest {
     private val stdin = System.`in`.bufferedReader()
     private val stdout = System.`out`.bufferedWriter()
 
-    @Test
+    @Test(expected = CommandException::class)
     fun tooManyArguments() {
         val arguments = listOf("a", "b", "c")
-        assertFalse(Assign(stdin, arguments, stdout, VariablesStorage()).run())
+        Assign(stdin, arguments, stdout, VariablesStorage()).run()
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun tooFewArguments() {
         val arguments = listOf("a")
-        assertFalse(Assign(stdin, arguments, stdout, VariablesStorage()).run())
+        Assign(stdin, arguments, stdout, VariablesStorage()).run()
     }
 
     @Test

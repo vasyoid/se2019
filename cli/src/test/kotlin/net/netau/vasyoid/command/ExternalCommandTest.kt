@@ -1,5 +1,6 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.ByteArrayInputStream
@@ -30,15 +31,13 @@ class ExternalCommandTest {
         assertEquals(files + "\n", outputString.replace("\r\n", "\n"))
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun unknownCommand() {
         val arguments = listOf("unknowncommandthatdoesnotexist")
-        assertFalse(
-            ExternalCommand(
-                ByteArrayInputStream(byteArrayOf()).bufferedReader(),
-                arguments,
-                System.out.bufferedWriter()
-            ).run()
-        )
+        ExternalCommand(
+            ByteArrayInputStream(byteArrayOf()).bufferedReader(),
+            arguments,
+            System.out.bufferedWriter()
+        ).run()
     }
 }

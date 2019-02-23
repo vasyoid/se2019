@@ -1,6 +1,7 @@
 package net.netau.vasyoid.command
 
 import net.netau.vasyoid.VariablesStorage
+import net.netau.vasyoid.exception.CommandException
 import java.io.BufferedReader
 import java.io.BufferedWriter
 
@@ -16,8 +17,7 @@ class Assign(
 
     override fun run(): Boolean {
         if (arguments.size != 2) {
-            System.err.println("Incorrect assignment command")
-            return false
+            throw CommandException("Incorrect assignment command")
         }
         storage.set(arguments[0], arguments[1])
         return true

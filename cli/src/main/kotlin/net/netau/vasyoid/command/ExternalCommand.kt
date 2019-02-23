@@ -1,5 +1,6 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
@@ -24,8 +25,7 @@ class ExternalCommand(
             readErrors(process)
             process.waitFor() == 0
         } catch (e : IOException) {
-            System.err.println(e.message)
-            false
+            throw CommandException(arguments[0] + e.message)
         }
     }
 
