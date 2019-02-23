@@ -9,10 +9,10 @@ import java.nio.charset.Charset
  * Wc command. Prints the number of newlines, words and bytes in a file.
  */
 class Wc(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     override fun run(): Boolean {
         if (arguments.isEmpty()) {
@@ -57,7 +57,7 @@ class Wc(
     private fun wc(): Statistics {
         val stringBuilder = StringBuilder()
         loop@ while (true) {
-            val char = stdin.read()
+            val char = input.read()
             if (char < 0) {
                 break@loop
             }
@@ -72,9 +72,9 @@ class Wc(
     }
 
     private fun printStat(stat: Statistics, name: String = "") {
-        stdout.write("${stat.lines} ${stat.words} ${stat.bytes} $name")
-        stdout.newLine()
-        stdout.flush()
+        output.write("${stat.lines} ${stat.words} ${stat.bytes} $name")
+        output.newLine()
+        output.flush()
     }
 
     companion object {

@@ -9,10 +9,10 @@ import java.io.IOException
  * Execute external command command. Called when a command is unknown.
  */
 class ExternalCommand(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     override fun run(): Boolean {
         val prefix = if (System.getProperty("os.name").startsWith("Win")) "cmd /c " else ""
@@ -31,13 +31,13 @@ class ExternalCommand(
 
     private fun writeInput(process: Process) {
         val processInput = process.outputStream.bufferedWriter()
-        stdin.copyTo(processInput)
+        input.copyTo(processInput)
         processInput.close()
     }
 
     private fun readOutput(process: Process) {
-        process.inputStream.bufferedReader().copyTo(stdout)
-        stdout.flush()
+        process.inputStream.bufferedReader().copyTo(output)
+        output.flush()
     }
 
     private fun readErrors(process: Process) {

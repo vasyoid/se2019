@@ -7,15 +7,15 @@ import java.io.BufferedWriter
  * Echo command. Prints its arguments.
  */
 class Echo(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     override fun run(): Boolean {
-        stdout.write(arguments.joinToString(" "))
-        stdout.newLine()
-        stdout.flush()
+        output.write(arguments.joinToString(" "))
+        output.newLine()
+        output.flush()
         return true
     }
 }

@@ -7,23 +7,23 @@ import java.io.*
  * Cat command. Prints the contents of a file.
  */
 class Cat(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     /**
      * @inheritDoc
      */
     override fun run(): Boolean {
         if (arguments.isEmpty()) {
-            cat(stdin)
+            cat(input)
         }
         return try {
             arguments.forEach {
                 cat(FileInputStream(File(it)).bufferedReader())
             }
-            stdout.flush()
+            output.flush()
             true
         } catch (e: IOException) {
             throw CommandException("cat: " + e.message)
@@ -31,6 +31,6 @@ class Cat(
     }
 
     private fun cat(input: BufferedReader) {
-        input.copyTo(stdout)
+        input.copyTo(output)
     }
 }

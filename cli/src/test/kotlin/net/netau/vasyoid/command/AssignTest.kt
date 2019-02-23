@@ -7,26 +7,26 @@ import org.junit.Test
 
 class AssignTest {
 
-    private val stdin = System.`in`.bufferedReader()
-    private val stdout = System.`out`.bufferedWriter()
+    private val input = System.`in`.bufferedReader()
+    private val output = System.`out`.bufferedWriter()
 
     @Test(expected = CommandException::class)
     fun tooManyArguments() {
         val arguments = listOf("a", "b", "c")
-        Assign(stdin, arguments, stdout, VariablesStorage()).run()
+        Assign(input, arguments, output, VariablesStorage()).run()
     }
 
     @Test(expected = CommandException::class)
     fun tooFewArguments() {
         val arguments = listOf("a")
-        Assign(stdin, arguments, stdout, VariablesStorage()).run()
+        Assign(input, arguments, output, VariablesStorage()).run()
     }
 
     @Test
     fun correctAssignment() {
         val storage = VariablesStorage()
         val arguments = listOf("a", "asd af")
-        assertTrue(Assign(stdin, arguments, stdout, storage).run())
+        assertTrue(Assign(input, arguments, output, storage).run())
         assertEquals("asd af", storage.get("a"))
     }
 }

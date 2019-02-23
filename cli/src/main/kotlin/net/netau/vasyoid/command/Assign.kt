@@ -9,11 +9,11 @@ import java.io.BufferedWriter
  * Assignment command. Binds an environment variable to a value
  */
 class Assign(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter,
+    output: BufferedWriter,
     private val storage: VariablesStorage
-) : Command(stdin, arguments, stdout) {
+) : Command(input, arguments, output) {
 
     override fun run(): Boolean {
         if (arguments.size != 2) {

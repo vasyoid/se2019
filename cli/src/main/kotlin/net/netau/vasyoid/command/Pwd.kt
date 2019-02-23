@@ -8,14 +8,14 @@ import java.io.File
  * Pwd command. Prints the current path.
  */
 class Pwd(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     override fun run(): Boolean {
-        stdout.write(File("./").canonicalPath)
-        stdout.flush()
+        output.write(File("./").canonicalPath)
+        output.flush()
         return true
     }
 }
