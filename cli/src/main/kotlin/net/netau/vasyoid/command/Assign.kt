@@ -10,7 +10,8 @@ import java.io.BufferedWriter
 class Assign(
     stdin: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
+    stdout: BufferedWriter,
+    private val storage: VariablesStorage
 ) : Command(stdin, arguments, stdout) {
 
     override fun run(): Boolean {
@@ -18,7 +19,7 @@ class Assign(
             System.err.println("Incorrect assignment command")
             return false
         }
-        VariablesStorage.set(arguments[0], arguments[1])
+        storage.set(arguments[0], arguments[1])
         return true
     }
 }

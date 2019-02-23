@@ -3,7 +3,7 @@ package net.netau.vasyoid
 /**
  * Global Variable storage. Stores the values bounded to variables.
  */
-object VariablesStorage {
+class VariablesStorage {
 
     private val variables = mutableMapOf<String, String>()
 

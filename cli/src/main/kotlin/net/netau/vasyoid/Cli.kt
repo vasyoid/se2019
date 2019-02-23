@@ -1,19 +1,18 @@
 package net.netau.vasyoid
 
-import net.netau.vasyoid.parser.QuotesExpander
-import net.netau.vasyoid.parser.VariablesSubstitutor
-import net.netau.vasyoid.parser.WordsSplitter
 
 /**
  * Main object. Performs the Cli user interaction.
  */
 object Cli {
 
+    private val parser = Parser
+    private val interpreter = Interpreter
+    private val storage = VariablesStorage()
+
     private fun processInput(input: String) {
-        var tokens = WordsSplitter.split(input)
-        tokens = QuotesExpander.expand(tokens)
-        tokens = VariablesSubstitutor.substitute(tokens)
-        Interpreter.interpret(tokens)
+        val tokens = parser.parse(input, storage)
+        interpreter.interpret(tokens, storage)
         print("> ")
     }
 
@@ -22,6 +21,7 @@ object Cli {
      */
     @JvmStatic
     fun main(args: Array<String>) {
+
         print("> ")
         System.`in`.bufferedReader().useLines { lines ->
             lines.forEach { line ->
