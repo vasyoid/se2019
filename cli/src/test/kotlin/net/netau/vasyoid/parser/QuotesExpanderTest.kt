@@ -10,20 +10,20 @@ class QuotesExpanderTest {
     fun simpleString() {
         val input = listOf("helloWorld", "hello\$World")
         val output = listOf("helloWorld", "hello\u0000World")
-        assertEquals(output, Parser.expandQuotes(input))
+        assertEquals(output, Parser().expandQuotes(input))
     }
 
     @Test
     fun singleQuote() {
         val input = listOf("'hel|o World'", "'hel|o \$World'")
         val output = listOf("hel|o World", "hel|o \$World")
-        assertEquals(output, Parser.expandQuotes(input))
+        assertEquals(output, Parser().expandQuotes(input))
     }
 
     @Test
     fun doubleQuote() {
         val input = listOf("\"hel|o World\"", "\"hel|o \$World\"")
         val output = listOf("hel|o World", "hel|o \u0000World")
-        assertEquals(output, Parser.expandQuotes(input))
+        assertEquals(output, Parser().expandQuotes(input))
     }
 }

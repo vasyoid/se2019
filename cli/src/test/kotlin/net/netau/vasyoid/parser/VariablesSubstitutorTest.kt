@@ -12,7 +12,7 @@ class VariablesSubstitutorTest {
         val storage = VariablesStorage()
         val input = listOf("hello")
         val output = listOf("hello")
-        assertEquals(output, Parser.substituteVariables(input, storage))
+        assertEquals(output, Parser().substituteVariables(input, storage))
     }
 
     @Test
@@ -21,7 +21,7 @@ class VariablesSubstitutorTest {
         storage.set("hello", "world")
         val input = listOf("\u0000hello world")
         val output = listOf("world world")
-        assertEquals(output, Parser.substituteVariables(input, storage))
+        assertEquals(output, Parser().substituteVariables(input, storage))
     }
 
     @Test
@@ -30,7 +30,7 @@ class VariablesSubstitutorTest {
         storage.set("he11o", "wor1d")
         val input = listOf("\u0000he11o")
         val output = listOf("wor1d")
-        assertEquals(output, Parser.substituteVariables(input, storage))
+        assertEquals(output, Parser().substituteVariables(input, storage))
     }
 
     @Test
@@ -38,6 +38,6 @@ class VariablesSubstitutorTest {
         val storage = VariablesStorage()
         val input = listOf("hello|\u0000world~")
         val output = listOf("hello|~")
-        assertEquals(output, Parser.substituteVariables(input, storage))
+        assertEquals(output, Parser().substituteVariables(input, storage))
     }
 }
