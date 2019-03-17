@@ -14,7 +14,7 @@ class CatTest {
     @JvmField
     val tmpFolder = TemporaryFolder()
 
-    private val stdin = System.`in`.bufferedReader()
+    private val input = System.`in`.bufferedReader()
     private val inputString = "asd\nfds\n123"
     private val fileName = "filename"
 
@@ -34,7 +34,7 @@ class CatTest {
         val arguments = listOf<String>(file.canonicalPath)
         file.writeText(inputString)
         val outputStream = ByteArrayOutputStream()
-        assertTrue(Cat(stdin, arguments, outputStream.bufferedWriter()).run())
+        assertTrue(Cat(input, arguments, outputStream.bufferedWriter()).run())
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
         assertEquals(inputString, outputString)
     }
@@ -42,6 +42,6 @@ class CatTest {
     @Test(expected = CommandException::class)
     fun nonExistingFile() {
         val arguments = listOf("filethatdoesnotexist")
-        Cat(stdin, arguments, System.out.bufferedWriter()).run()
+        Cat(input, arguments, System.out.bufferedWriter()).run()
     }
 }

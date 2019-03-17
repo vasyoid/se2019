@@ -6,33 +6,22 @@ import net.netau.vasyoid.exception.CommandException
 /**
  * Main object. Performs the Cli user interaction.
  */
-object Cli {
+class Cli(
+    private val parser: Parser,
+    private val interpreter: Interpreter,
+    private val storage: VariablesStorage
+) {
 
-    private val parser = Parser
-    private val interpreter = Interpreter
-    private val storage = VariablesStorage()
-
-    private fun processInput(input: String) {
-        val tokens = parser.parse(input, storage)
+    /**
+     * Parse and execute a command.
+     */
+    fun processInput(input: String) {
         try {
+            val tokens = parser.parse(input, storage)
             interpreter.interpret(tokens, storage)
-        } catch (e: CommandException) {
+        } catch (e: RuntimeException) {
             System.err.println(e.message)
         }
         print("> ")
-    }
-
-    /**
-     * Main cli loop.
-     */
-    @JvmStatic
-    fun main(args: Array<String>) {
-
-        print("> ")
-        System.`in`.bufferedReader().useLines { lines ->
-            lines.forEach { line ->
-                processInput(line)
-            }
-        }
     }
 }

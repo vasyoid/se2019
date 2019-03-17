@@ -10,10 +10,10 @@ import java.lang.RuntimeException
  * Grep command. Prints lines that contain a specified pattern.
  */
 class Grep(
-    stdin: BufferedReader,
+    input: BufferedReader,
     arguments: List<String>,
-    stdout: BufferedWriter
-) : Command(stdin, arguments, stdout) {
+    output: BufferedWriter
+) : Command(input, arguments, output) {
 
     private var lines = 0
     private lateinit var regex: Regex
@@ -27,17 +27,17 @@ class Grep(
         }
         var linesToPrint = 0
         while (true) {
-            val line = stdin.readLine() ?: break
+            val line = input.readLine() ?: break
             if (line.contains(regex)) {
                 linesToPrint = lines
             }
             if (linesToPrint > 0) {
-                stdout.write(line)
-                stdout.newLine()
+                output.write(line)
+                output.newLine()
                 linesToPrint--
             }
         }
-        stdout.flush()
+        output.flush()
         return true
     }
 

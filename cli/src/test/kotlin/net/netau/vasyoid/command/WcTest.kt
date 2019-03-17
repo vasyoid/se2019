@@ -14,7 +14,7 @@ class WcTest {
     @JvmField
     val tmpFolder = TemporaryFolder()
 
-    private val stdin = System.`in`.bufferedReader()
+    private val input = System.`in`.bufferedReader()
     private val inputString = "asd\nfds sdf\n123"
     private val fileName = "filename"
     private val stat = "2 4 15 "
@@ -30,23 +30,23 @@ class WcTest {
     }
 
     @Test
-    fun catFromFile() {
+    fun wcFromFile() {
         val file = tmpFolder.newFile(fileName)
         val arguments = listOf<String>(file.canonicalPath)
         file.writeText(inputString)
         val outputStream = ByteArrayOutputStream()
-        assertTrue(Wc(stdin, arguments, outputStream.bufferedWriter()).run())
+        assertTrue(Wc(input, arguments, outputStream.bufferedWriter()).run())
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
         assertEquals(stat + file.canonicalPath + System.lineSeparator(), outputString)
     }
 
     @Test
-    fun catFromTwoFilesFile() {
+    fun wcFromTwoFilesFile() {
         val file = tmpFolder.newFile(fileName)
         val arguments = listOf<String>(file.canonicalPath, file.canonicalPath)
         file.writeText(inputString)
         val outputStream = ByteArrayOutputStream()
-        assertTrue(Wc(stdin, arguments, outputStream.bufferedWriter()).run())
+        assertTrue(Wc(input, arguments, outputStream.bufferedWriter()).run())
         val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
         var expected = stat + file.canonicalPath + System.lineSeparator()
         expected = expected + expected + "4 8 30 total" + System.lineSeparator()
@@ -56,7 +56,7 @@ class WcTest {
     @Test(expected = CommandException::class)
     fun nonExistingFile() {
         val arguments = listOf("filethatdoesnotexist")
-        Cat(stdin, arguments, System.out.bufferedWriter()).run()
+        Wc(input, arguments, System.out.bufferedWriter()).run()
     }
 
 }
