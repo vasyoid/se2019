@@ -1,15 +1,23 @@
 package net.netau.vasyoid.command
 
+import net.netau.vasyoid.exception.CommandException
 import org.junit.Assert.*
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
 class GrepTest {
 
+    @Rule
+    @JvmField
+    val tmpFolder = TemporaryFolder()
+
     private val inputString = "kasdk\nasd\nasd asd asd\nasdasd\nASD\nsdf\nsdf\nsdf\nasd ..\n"
-    private val stdin = System.`in`.bufferedReader()
-    private val stdout = System.out.bufferedWriter()
+    private val input = System.`in`.bufferedReader()
+    private val output = System.out.bufferedWriter()
+    private val fileName = "file"
 
     @Test
     fun normalGrep() {
@@ -17,6 +25,16 @@ class GrepTest {
         val arguments = listOf("asd")
         checkSuccessful(expectedResult, arguments)
     }
+
+    @Test
+    fun grepFromFile() {
+        val file = tmpFolder.newFile(fileName)
+        file.writeText(inputString)
+        val expectedResult = "kasdk\nasd\nasd asd asd\nasdasd\nasd ..\n"
+        val arguments = listOf("asd", file.canonicalPath)
+        checkSuccessful(expectedResult, arguments)
+    }
+
 
     @Test
     fun grepWords() {
@@ -60,34 +78,34 @@ class GrepTest {
         checkSuccessful(expectedResult, arguments)
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun grepInvalidOption() {
         val arguments = listOf("-s", "asd", "-i")
-        assertFalse(Grep(stdin, arguments, stdout).run())
+        Grep(input, arguments, output).run()
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun grepLinesNoParameter() {
         val arguments = listOf("asd", "-A")
-        assertFalse(Grep(stdin, arguments, stdout).run())
+        assertFalse(Grep(input, arguments, output).run())
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun grepLinesIncorrectParameter() {
         val arguments = listOf("-A", "asd")
-        assertFalse(Grep(stdin, arguments, stdout).run())
+        Grep(input, arguments, output).run()
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun grepNoPattern() {
         val arguments = listOf("-i")
-        assertFalse(Grep(stdin, arguments, stdout).run())
+        Grep(input, arguments, output).run()
     }
 
-    @Test
+    @Test(expected = CommandException::class)
     fun grepMultiplePatterns() {
-        val arguments = listOf("asd", "sdf")
-        assertFalse(Grep(stdin, arguments, stdout).run())
+        val arguments = listOf("asd", "sdf", "dfg")
+        Grep(input, arguments, output).run()
     }
 
     private fun checkSuccessful(expectedResult: String, arguments: List<String>) {

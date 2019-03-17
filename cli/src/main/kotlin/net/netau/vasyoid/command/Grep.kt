@@ -49,14 +49,14 @@ class Grep(
         lateinit var options: OptionSet
         try {
             options = parser.parse(*arguments.toTypedArray())
+            if (options.has("A")) {
+                lines = options.valueOf("A") as Int
+                if (lines < 0) {
+                    fail("context length must be non-negative", parser)
+                }
+            }
         } catch (e: OptionException) {
             fail(e.message ?: "", parser)
-        }
-        if (options.has("A")) {
-            lines = options.valueOf("A") as Int
-            if (lines < 0) {
-                fail("context length must be non-negative", parser)
-            }
         }
         lines++
         val args = options.nonOptionArguments()
