@@ -1,7 +1,5 @@
 package net.netau.vasyoid
 
-import net.netau.vasyoid.exception.CommandException
-
 
 /**
  * Main object. Performs the Cli user interaction.
@@ -19,7 +17,7 @@ class Cli(
         try {
             val tokens = parser.parse(input, storage)
             interpreter.interpret(tokens, storage)
-        } catch (e: RuntimeException) {
+        } catch (e: Exception) {
             System.err.println(e.message)
         }
         print("> ")
