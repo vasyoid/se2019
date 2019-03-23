@@ -1,0 +1,62 @@
+package net.netau.vasyoid.command
+
+import net.netau.vasyoid.exception.CommandException
+import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TemporaryFolder
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+
+class WcTest {
+
+    @Rule
+    @JvmField
+    val tmpFolder = TemporaryFolder()
+
+    private val input = System.`in`.bufferedReader()
+    private val inputString = "asd\nfds sdf\n123"
+    private val fileName = "filename"
+    private val stat = "2 4 15 "
+
+    @Test
+    fun wcFromInput() {
+        val arguments = listOf<String>()
+        val input = ByteArrayInputStream(inputString.toByteArray()).bufferedReader()
+        val outputStream = ByteArrayOutputStream()
+        assertTrue(Wc(input, arguments, outputStream.bufferedWriter()).run())
+        val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
+        assertEquals(stat + System.lineSeparator(), outputString)
+    }
+
+    @Test
+    fun wcFromFile() {
+        val file = tmpFolder.newFile(fileName)
+        val arguments = listOf<String>(file.canonicalPath)
+        file.writeText(inputString)
+        val outputStream = ByteArrayOutputStream()
+        assertTrue(Wc(input, arguments, outputStream.bufferedWriter()).run())
+        val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
+        assertEquals(stat + file.canonicalPath + System.lineSeparator(), outputString)
+    }
+
+    @Test
+    fun wcFromTwoFilesFile() {
+        val file = tmpFolder.newFile(fileName)
+        val arguments = listOf<String>(file.canonicalPath, file.canonicalPath)
+        file.writeText(inputString)
+        val outputStream = ByteArrayOutputStream()
+        assertTrue(Wc(input, arguments, outputStream.bufferedWriter()).run())
+        val outputString = String(ByteArrayInputStream(outputStream.toByteArray()).readBytes())
+        var expected = stat + file.canonicalPath + System.lineSeparator()
+        expected = expected + expected + "4 8 30 total" + System.lineSeparator()
+        assertEquals(expected, outputString)
+    }
+
+    @Test(expected = CommandException::class)
+    fun nonExistingFile() {
+        val arguments = listOf("filethatdoesnotexist")
+        Wc(input, arguments, System.out.bufferedWriter()).run()
+    }
+
+}
