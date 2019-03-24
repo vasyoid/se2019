@@ -68,6 +68,7 @@ class Interpreter {
             "echo" -> Echo(input, arguments, output).run()
             "wc" -> Wc(input, arguments, output).run()
             "pwd" -> Pwd(input, arguments, output).run()
+            "grep" -> Grep(input, arguments, output).run()
             "exit" -> {
                 System.exit(0)
                 true
