@@ -1,0 +1,45 @@
+version: '2.1'
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4576-4576"
+      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+    environment:
+      - SERVICES=sqs
+      - DEFAULT_REGION=eu-west-1
+      - HOSTNAME_EXTERNAL=localstack
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+  
+  sqs1:
+    build: ./sqs
+    depends_on:
+      localstack:
+        condition: service_started
+    volumes:
+      - "./sqs-ping-pong:/tmp/sqs-ping-pong"
+      - "./run-ping-pong.sh:/usr/local/bin/run-ping-pong.sh"
+    environment:
+      - A=A
+      - B=B
+      - NUMBER=0
+    command:
+      - run-ping-pong.sh
+    links:
+      - "localstack"
+
+  sqs2:
+    build: ./sqs
+    depends_on:
+      localstack:
+        condition: service_started
+    volumes:
+      - "./sqs-ping-pong:/tmp/sqs-ping-pong"
+      - "./run-ping-pong.sh:/usr/local/bin/run-ping-pong.sh"
+    environment:
+      - A=B
+      - B=A
+      - NUMBER=
+    command:
+      - run-ping-pong.sh
